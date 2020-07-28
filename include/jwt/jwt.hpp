@@ -41,7 +41,7 @@ SOFTWARE.
 #if defined(CPP_JWT_USE_VENDORED_NLOHMANN_JSON)
 #include "jwt/json/json.hpp"
 #else
-#include "nlohmann/json.hpp"
+#include <nlohmann/json.hpp>
 #endif
 // For convenience
 using json_t = nlohmann::json;
@@ -104,7 +104,7 @@ enum class registered_claims
   issuer,
   // Audience claim
   audience,
-  // Issued At Time claim 
+  // Issued At Time claim
   issued_at,
   // Subject claim
   subject,
@@ -134,7 +134,7 @@ inline jwt::string_view reg_claims_to_str(SCOPED_ENUM registered_claims claim) n
 }
 
 /**
- * A helper class that enables reuse of the 
+ * A helper class that enables reuse of the
  * std::set container with custom comparator.
  */
 struct jwt_set
@@ -175,7 +175,7 @@ struct jwt_set
   using header_claim_set_t = std::set<std::string, case_compare>;
 };
 
-// Fwd declaration for friend functions to specify the 
+// Fwd declaration for friend functions to specify the
 // default arguments
 // See: https://stackoverflow.com/a/23336823/434233
 template <typename T, typename = typename std::enable_if<
@@ -222,7 +222,7 @@ struct write_interface
   /**
    * Writes the object of instance `T` in JSON format
    * to standard output stream.
-   * The requirements on type `T` is same as that for 
+   * The requirements on type `T` is same as that for
    * `to_json_str` API.
    */
   template <typename T>
@@ -250,7 +250,7 @@ struct write_interface
  * json string.
  *
  * @note: The JWT component classes inherits from this
- * class to get the base64 related encoding and decoding 
+ * class to get the base64 related encoding and decoding
  * functionalities.
  */
 template <typename Derived>
@@ -503,7 +503,7 @@ private: // Data members
   json_t payload_;
 
   //Extra headers for JWS
-  jwt_set::header_claim_set_t headers_; 
+  jwt_set::header_claim_set_t headers_;
 };
 
 
@@ -661,7 +661,7 @@ public: // Exposed APIs
 
   /**
    * Gets the claim value provided the claim value name.
-   * This overload takes the claim name as an instance of 
+   * This overload takes the claim name as an instance of
    * type `registered_claims`.
    *
    * The template type `T` is what the user expects the value
@@ -690,7 +690,7 @@ public: // Exposed APIs
 
   /**
    * Remove a claim.
-   * Overload which takes the claim name as an instance 
+   * Overload which takes the claim name as an instance
    * of `registered_claims` type.
    */
   bool remove_claim(SCOPED_ENUM registered_claims cname)
@@ -699,7 +699,7 @@ public: // Exposed APIs
   }
 
   /**
-   * Checks whether a claim is present in the payload 
+   * Checks whether a claim is present in the payload
    * or not.
    * @note: Claim name is case sensitive for this API.
    */
@@ -712,7 +712,7 @@ public: // Exposed APIs
   }
 
   /**
-   * Checks whether a claim is present in the payload or 
+   * Checks whether a claim is present in the payload or
    * not.
    * Overload which takes the claim name as an instance
    * of `registered_claims` type.
@@ -736,7 +736,7 @@ public: // Exposed APIs
   }
 
   /**
-   * Checks whether there is claim with a specific 
+   * Checks whether there is claim with a specific
    * value in the payload.
    * Overload which takes the claim name as an instance of
    * type `registered_claims`.
@@ -778,7 +778,7 @@ public: // Exposed APIs
   /**
    * Creates a JSON object of the payload.
    *
-   * The presence of this API is required for 
+   * The presence of this API is required for
    * making it work with `write_interface`.
    */
   const json_t& create_json_obj() const
@@ -827,7 +827,7 @@ public: // Exposed APIs
    * Encodes the header and payload to get the
    * three part JWS signature.
    */
-  std::string encode(const jwt_header& header, 
+  std::string encode(const jwt_header& header,
                      const jwt_payload& payload,
                      std::error_code& ec);
 
@@ -861,8 +861,8 @@ private: // Data members;
  * It is a composition of all JWT composition classes.
  *
  * @note: This class does not provide all the required
- * APIs in its public interface. Instead the class provides 
- * `header()` and `payload()` APIs. Those can be used to 
+ * APIs in its public interface. Instead the class provides
+ * `header()` and `payload()` APIs. Those can be used to
  * access more public APIs specific to those components.
  */
 class jwt_object
@@ -880,7 +880,7 @@ public: // 'tors
    *
    * The parameters that can be passed:
    * 1. payload : Can pass a initializer list of pairs or any associative
-   * containers which models `MappingConcept` (see `meta::is_mapping_concept`) 
+   * containers which models `MappingConcept` (see `meta::is_mapping_concept`)
    * to populate claims. Use `add_claim` for more controlled additions.
    *
    * 2. secret : The secret to be used for generating and verification
@@ -1200,8 +1200,8 @@ private: // Data Members
  * 8. validate_jti: Checks if jti claim is present or not.
  */
 template <typename SequenceT, typename... Args>
-jwt_object decode(const jwt::string_view enc_str, 
-                  const params::detail::algorithms_param<SequenceT>& algos, 
+jwt_object decode(const jwt::string_view enc_str,
+                  const params::detail::algorithms_param<SequenceT>& algos,
                   std::error_code& ec,
                   Args&&... args);
 

@@ -4,6 +4,7 @@ project(cpp-jwt VERSION 1.2.0)
 option(CPP_JWT_BUILD_EXAMPLES "build examples" ON)
 option(CPP_JWT_BUILD_TESTS "build tests" ON)
 option(CPP_JWT_USE_VENDORED_NLOHMANN_JSON "use vendored json header" ON)
+option(CPP_JWT_USE_NLOHMANN_JSON_AS_SUBMODULE "use json library from a project submodule" OFF)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_BINARY_DIR})
@@ -26,8 +27,8 @@ endif()
 
 find_package(OpenSSL REQUIRED)
 
-if(NOT CPP_JWT_USE_VENDORED_NLOHMANN_JSON)
-  find_package(nlohmann_json REQUIRED)
+if(NOT CPP_JWT_USE_VENDORED_NLOHMANN_JSON AND NOT CPP_JWT_USE_NLOHMANN_JSON_AS_SUBMODULE)
+    find_package(nlohmann_json REQUIRED)
 endif()
 
 # ##############################################################################
